@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Musical Explorer</title>
+    <meta name="description" content="Discover musical films, explore details, and build your own watchlist with Musical Explorer.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="site-header__inner">
+        <div class="logo">
+            <span class="logo__text">Musical Explorer</span>
+        </div>
+        <nav class="nav">
+            <button class="nav__link nav__link--active" data-section-target="home">Home</button>
+            <button class="nav__link" data-section-target="browse">Browse</button>
+            <button class="nav__link" data-section-target="watchlist">Watchlist</button>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section id="home" class="section section--hero section--active">
+        <div class="hero">
+            <div class="hero__content">
+                <h1 class="hero__title">Find your next favorite musical</h1>
+                <p class="hero__subtitle">
+                    Search, browse, and save musical films to your watchlist. Powered by The Movie Database API.
+                </p>
+                <form id="hero-search-form" class="search-form">
+                    <label class="sr-only" for="hero-search-input">Search for a musical</label>
+                    <input
+                            id="hero-search-input"
+                            class="search-form__input"
+                            type="text"
+                            placeholder="Search for a musical film (e.g. Les Misérables)"
+                            autocomplete="off"
+                    >
+                    <button class="btn btn--primary" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="hero__aside">
+                <div class="hero-highlight">
+                    <h2 class="hero-highlight__title">Featured musicals</h2>
+                    <p class="hero-highlight__text">
+                        A curated selection of popular musical films to get you started.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <section class="results-section">
+            <div class="results-header">
+                <h2 class="results-header__title">Featured Musical Films</h2>
+                <p class="results-header__subtitle" id="featured-status-text">
+                    Loading featured titles...
+                </p>
+            </div>
+            <div id="featured-grid" class="card-grid" aria-live="polite"></div>
+        </section>
+    </section>
+
+    <!-- BROWSE SECTION -->
+    <section id="browse" class="section">
+        <div class="section__inner">
+            <header class="section-header">
+                <h2>Browse musicals</h2>
+                <p>Filter by decade, rating, and popularity.</p>
+            </header>
+
+            <div class="browse-layout">
+                <aside class="filters-panel">
+                    <h3 class="filters-panel__title">Filters</h3>
+
+                    <div class="filter-group">
+                        <label for="filter-decade" class="filter-label">Decade</label>
+                        <select id="filter-decade" class="filter-select">
+                            <option value="">Any</option>
+                            <option value="1960">1960s</option>
+                            <option value="1970">1970s</option>
+                            <option value="1980">1980s</option>
+                            <option value="1990">1990s</option>
+                            <option value="2000">2000s</option>
+                            <option value="2010">2010s</option>
+                            <option value="2020">2020s</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filter-min-rating" class="filter-label">Minimum rating</label>
+                        <select id="filter-min-rating" class="filter-select">
+                            <option value="">Any</option>
+                            <option value="5">5+</option>
+                            <option value="6">6+</option>
+                            <option value="7">7+</option>
+                            <option value="8">8+</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filter-sort" class="filter-label">Sort by</label>
+                        <select id="filter-sort" class="filter-select">
+                            <option value="popularity.desc">Popularity (desc)</option>
+                            <option value="vote_average.desc">Rating (desc)</option>
+                            <option value="primary_release_date.desc">Release date (newest)</option>
+                        </select>
+                    </div>
+
+                    <button id="apply-filters-btn" class="btn btn--primary btn--full">
+                        Apply filters
+                    </button>
+                </aside>
+
+                <section class="browse-results">
+                    <form id="browse-search-form" class="search-form search-form--inline">
+                        <label class="sr-only" for="browse-search-input">Search within musicals</label>
+                        <input
+                                id="browse-search-input"
+                                class="search-form__input"
+                                type="text"
+                                placeholder="Search musical titles..."
+                                autocomplete="off"
+                        >
+                        <button class="btn btn--ghost" type="submit">Search</button>
+                    </form>
+
+                    <div class="results-header results-header--compact">
+                        <h3 class="results-header__title">Results</h3>
+                        <p class="results-header__subtitle" id="browse-status-text">
+                            Use search or filters to explore musical films.
+                        </p>
+                    </div>
+
+                    <div id="browse-grid" class="card-grid" aria-live="polite"></div>
+                </section>
+            </div>
+        </div>
+    </section>
+    <section id="watchlist" class="section">
+        <div class="section__inner">
+            <header class="section-header">
+                <h2>Your watchlist</h2>
+                <p>
+                    Save the musicals you want to watch later.
+                </p>
+            </header>
+
+            <div class="watchlist-actions">
+                <button id="sort-watchlist-rating-btn" class="btn btn--ghost">
+                    Sort by rating
+                </button>
+                <button id="clear-watchlist-btn" class="btn btn--danger">
+                    Clear watchlist
+                </button>
+            </div>
+
+            <div id="watchlist-grid" class="card-grid" aria-live="polite"></div>
+            <p id="watchlist-empty-text" class="muted-text">
+                Your watchlist is empty. Add musicals by clicking "Add to watchlist" on any musical description.
+            </p>
+        </div>
+    </section>
+</main>
+
+<div id="movie-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal__backdrop" data-modal-dismiss></div>
+    <div class="modal__dialog">
+        <button class="modal__close-btn" type="button" data-modal-dismiss>&times;</button>
+        <div id="modal-content" class="modal__content">
+        </div>
+    </div>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>
